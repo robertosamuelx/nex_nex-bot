@@ -6,6 +6,7 @@ const helmet = require('helmet')
 const router = require('./routes')
 const cors = require('cors')
 const mongoose = require('mongoose')
+const redis = require('redis')
 
 mongoose.connect(process.env.MONGO_URL, {
     useNewUrlParser: true,

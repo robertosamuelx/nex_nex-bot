@@ -24,5 +24,11 @@ module.exports = {
         const ask = await Ask.findOne({id}).exec()
         await ask.deleteOne()
         return res.status(200).send()
+    },
+
+    async getOne(req, res){
+        const { id } = req.params
+        const ask = await Ask.findOne({id}).exec()
+        return res.status(200).json(ask)
     }
 }
