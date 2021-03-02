@@ -3,6 +3,7 @@ const router = express.Router()
 const userController = require('./controllers/UserController')
 const askController = require('./controllers/AskController')
 const messageController = require('./controllers/MessageController')
+const homeController = require('./controllers/HomeController')
 
 //user routes
 router.get('/user', userController.list)
@@ -19,5 +20,8 @@ router.get('/message', messageController.list)
 router.put('/message/:id', messageController.update)
 router.post('/message', messageController.create)
 router.delete('/message/:id', messageController.delete)
+
+//home routes
+router.post('/', homeController.messageReceived)
 
 module.exports = router
