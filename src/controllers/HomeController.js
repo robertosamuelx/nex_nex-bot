@@ -4,6 +4,7 @@ const api = require('../services/api')
 
 module.exports = {
     async messageReceived(req, res) {
+        console.log('messageReceived')
         const { body:message } = req.body
         const { user } = req.body
         let response = ''
@@ -11,6 +12,7 @@ module.exports = {
         if(!cache.isCached(user)){
             cache.new(user)
             const { data } = await api.get('/ask')
+            response = 'Olá,\n\nSerá um prazer te atender. Para agilizar seu atendimento digite:\n\n'
             data.forEach( el => {
                 response = response + el.ask + '\n'
             })
@@ -23,10 +25,16 @@ module.exports = {
                 
                 if(cachedUser.wantsOrder){
 
-                    if(message == 'sim')
+                    if(message == 'sim'){
                         response = 'Ótimo, vou chamar um de nossos atendentes para falar com você!\nAguarde um momento...'
-                    else
+                        cache.profile.shouldRespond = false
+                        cache.new(user)
+                    }
+                    else {
                         response = 'Sem problemas, para voltar ao menu principal digite MENU'
+                        cache.profile.wantsOrder = false
+                        cache.new(user)
+                    }
                 }
 
                 else {
@@ -45,8 +53,17 @@ module.exports = {
 
                         if(data == null)
                             response = "Ops, não encontrei essa opção, por favor tente novamente."
-                        else
+                        else {
                             response = data.answer
+
+                            console.log(data.isOrder)
+
+                            if(data.isOrder){
+                                cache.profile.wantsOrder = true
+                                cache.new(user)
+                                response += "\n\nDeseja fazer um pedido?"
+                            }
+                        }
                     }
                 }
             }
