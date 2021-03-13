@@ -20,8 +20,12 @@ router.get('/message', messageController.list)
 router.put('/message/:id', messageController.update)
 router.post('/message', messageController.create)
 router.delete('/message/:id', messageController.delete)
+router.get('/message/:id', messageController.getOne)
+router.get('/deleteall', messageController.deleteAll)
 
 //home routes
 router.post('/', homeController.messageReceived)
+router.get('/chats', homeController.getChats)
+router.post('/send', homeController.messageSended)
 
 module.exports = router

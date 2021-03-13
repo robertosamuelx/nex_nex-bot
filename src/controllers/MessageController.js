@@ -3,7 +3,7 @@ const Message = require('../models/Message')
 module.exports = {
 
     async list(req, res){
-        const allMessages = await Message.find({})
+        const allMessages = await Message.find({}).sort({createdAt: 'asc'})
         return res.status(200).json(allMessages)
     },
 
@@ -23,6 +23,17 @@ module.exports = {
     async delete(req, res){
         const { id } = req.params
         await Message.findByIdAndDelete(id)
+        return res.status(200).send()
+    },
+
+    async getOne(req, res){
+        const { id } = req.params
+        const message = await Message.findById(id)
+        return res.status(200).json(message)
+    },
+
+    async deleteAll(req, res){
+        await Message.deleteMany({})
         return res.status(200).send()
     }
 }

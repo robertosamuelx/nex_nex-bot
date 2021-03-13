@@ -1,5 +1,6 @@
 const cache = require('../services/cache')
-const api = require('../services/api')
+const { local, bot } = require('../services/api')
+const Message = require('../models/Message')
 
 
 module.exports = {
@@ -8,10 +9,16 @@ module.exports = {
         const { body:message } = req.body
         const { user } = req.body
         let response = ''
+        await local.post('/message', {
+            from: user,
+            to: req.body.to,
+            createdAt: req.body.date,
+            body: message
+        })
 
         if(!cache.isCached(user)){
             cache.new(user)
-            const { data } = await api.get('/ask')
+            const { data } = await local.get('/ask')
             response = 'Olá,\n\nSerá um prazer te atender. Para agilizar seu atendimento digite:\n\n'
             data.forEach( el => {
                 response = response + el.ask + '\n'
@@ -40,14 +47,14 @@ module.exports = {
                 else {
 
                     if(message == 'menu'){
-                        const { data } = await api.get('/ask')
+                        const { data } = await local.get('/ask')
                         data.forEach( el => {
                             response = response + el.ask + '\n'
                         })
                     }
 
                     else {
-                        const { data } = await api.get('/ask/' + message)
+                        const { data } = await local.get('/ask/' + message)
                         if(message == 'bye')
                             cache.delete(user)
 
@@ -63,14 +70,67 @@ module.exports = {
                                 cache.new(user)
                                 response += "\n\nDeseja fazer um pedido?"
                             }
+
+                            else
+                                response += "\n\nAgradecemos pelo contato, para voltar ao menu principal digite MENU\nNão se esqueça de seguir nosso instagram para receber nossas novidades @foto_juarez"
                         }
                     }
                 }
             }
-            else
-                response = 'Já avisei ao atendente que você quer falar com ele...'
+        }
+
+        if(response !== ''){
+            await local.post('/message', {
+                to: user,
+                from: req.body.to,
+                createdAt: new Date(),
+                body: response
+            })
         }
 
         return res.json({response})
+    },
+
+    async getChats(req, res){
+        const contacts = await Message.find({}).sort({createdAt: 'asc'})
+        let groupedContacts = []
+        contacts.map(contact => {
+            const from = contact.from
+            if(!groupedContacts.includes(from) && from !== process.env.MY_NUMBER)
+                groupedContacts.push(from)
+        })
+
+        groupedContacts = groupedContacts.map( groupedContact => {
+            const messages = contacts.map(contact => {
+                if(contact.from === groupedContact)
+                    return {
+                        date: contact.createdAt,
+                        value: contact.body
+                    }
+                else if(contact.to === groupedContact && contact.from === process.env.MY_NUMBER){
+                    return {
+                        date: contact.createdAt,
+                        value: contact.body,
+                        isFromMe: true
+                    }
+                }
+            }).filter(i => i !== null ? i : null)
+            return {
+                user: groupedContact,
+                messages
+            }
+        })
+        return res.json(groupedContacts)
+    },
+
+    async messageSended(req, res){
+        const { body } = req
+        console.log(body)
+        await local.post('/message', body)
+        await bot.post('/response', {
+            to: body.to,
+            message: body.body
+        })
+        return res.send()
     }
 }
