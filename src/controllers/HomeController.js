@@ -131,6 +131,7 @@ module.exports = {
             to: body.to,
             message: body.body
         })
+        cache.delete(body.to)
         return res.send()
     }
 }

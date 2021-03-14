@@ -21,7 +21,12 @@ module.exports = {
     },
 
     getAll(){
-        return this.keys().map( key => myCache.get(key))
+        return this.keys().map( key => {
+            return {
+                user: key,
+                ...myCache.get(key),
+            }
+        })
     },
 
     new(user){

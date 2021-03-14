@@ -4,6 +4,7 @@ const userController = require('./controllers/UserController')
 const askController = require('./controllers/AskController')
 const messageController = require('./controllers/MessageController')
 const homeController = require('./controllers/HomeController')
+const cachedController = require('./controllers/CachedController')
 
 //user routes
 router.get('/user', userController.list)
@@ -27,5 +28,9 @@ router.get('/deleteall', messageController.deleteAll)
 router.post('/', homeController.messageReceived)
 router.get('/chats', homeController.getChats)
 router.post('/send', homeController.messageSended)
+
+//cached routes
+router.get('/cached/:id', cachedController.get)
+router.get('/cached', cachedController.getAll)
 
 module.exports = router
