@@ -100,7 +100,7 @@ module.exports = {
                 groupedContacts.push(from)
         })
 
-        groupedContacts = groupedContacts.map( groupedContact => {
+        groupedContacts = groupedContacts.map( (groupedContact, index) => {
             const messages = contacts.map(contact => {
                 if(contact.from === groupedContact)
                     return {
@@ -111,11 +111,12 @@ module.exports = {
                     return {
                         date: contact.createdAt,
                         value: contact.body,
-                        isFromMe: true
+                        isFromMe: true,
                     }
                 }
             }).filter(i => i !== null ? i : null)
             return {
+                id: index,
                 user: groupedContact,
                 messages
             }

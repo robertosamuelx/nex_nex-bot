@@ -5,6 +5,7 @@ const askController = require('./controllers/AskController')
 const messageController = require('./controllers/MessageController')
 const homeController = require('./controllers/HomeController')
 const cachedController = require('./controllers/CachedController')
+const salesmanController = require('./controllers/SalesmanController')
 
 //user routes
 router.get('/user', userController.list)
@@ -32,5 +33,9 @@ router.post('/send', homeController.messageSended)
 //cached routes
 router.get('/cached/:id', cachedController.get)
 router.get('/cached', cachedController.getAll)
+
+//salesman routes
+router.get('/salesman', salesmanController.getAll)
+router.post('/salesman', salesmanController.initSales)
 
 module.exports = router
