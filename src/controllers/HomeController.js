@@ -1,7 +1,7 @@
 const cache = require('../services/cache')
 const { local, bot } = require('../services/api')
 const Message = require('../models/Message')
-
+const salesmanController = require('./SalesmanController')
 
 module.exports = {
     async messageReceived(req, res) {
@@ -92,6 +92,7 @@ module.exports = {
     },
 
     async getChats(req, res){
+        const { filter } = req.body
         const contacts = await Message.find({}).sort({createdAt: 'asc'})
         let groupedContacts = []
         contacts.map(contact => {
@@ -134,5 +135,15 @@ module.exports = {
         })
         cache.delete(body.to)
         return res.send()
+    },
+
+    async getCategories(req, res){
+        const response = []
+        response.push({"value": "Não lidos", "options": []})
+        const {data: salesmans} = await local.get('/salesman')
+        response.push({"value": "Por vendedor", "options":salesmans.map( el => el.name)})
+        const { data: asks } = await local.get('/ask')
+        response.push({"value": "Por pergunta", "options": asks.map(el => el.ask)})
+        return res.json(response)
     }
 }

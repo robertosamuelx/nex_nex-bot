@@ -27,7 +27,7 @@ router.get('/deleteall', messageController.deleteAll)
 
 //home routes
 router.post('/', homeController.messageReceived)
-router.get('/chats', homeController.getChats)
+router.post('/chats', homeController.getChats)
 router.post('/send', homeController.messageSended)
 
 //cached routes
@@ -35,7 +35,9 @@ router.get('/cached/:id', cachedController.get)
 router.get('/cached', cachedController.getAll)
 
 //salesman routes
-router.get('/salesman', salesmanController.getAll)
+router.get('/sales', salesmanController.getAllSales)
 router.post('/salesman', salesmanController.initSales)
+router.get('/salesman', salesmanController.getAllSalesman)
+router.get('/categories', homeController.getCategories)
 
 module.exports = router
