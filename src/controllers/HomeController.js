@@ -145,5 +145,10 @@ module.exports = {
         const { data: asks } = await local.get('/ask')
         response.push({"value": "Por pergunta", "options": asks.map(el => el.ask)})
         return res.json(response)
+    },
+
+    async startBot(req, res){
+        await bot.get('/start')
+        return res.status(200).send()
     }
 }

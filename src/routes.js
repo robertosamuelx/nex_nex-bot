@@ -45,4 +45,7 @@ router.get('/categories', homeController.getCategories)
 router.get('/contacts', contactController.getAll)
 router.get('/contacts/:id', contactController.getOne)
 
+//control
+router.get('/start', homeController.startBot)
+
 module.exports = router
