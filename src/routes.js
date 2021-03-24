@@ -6,6 +6,7 @@ const messageController = require('./controllers/MessageController')
 const homeController = require('./controllers/HomeController')
 const cachedController = require('./controllers/CachedController')
 const salesmanController = require('./controllers/SalesmanController')
+const contactController = require('./controllers/ContactController')
 
 //user routes
 router.get('/user', userController.list)
@@ -39,5 +40,9 @@ router.get('/sales', salesmanController.getAllSales)
 router.post('/salesman', salesmanController.initSales)
 router.get('/salesman', salesmanController.getAllSalesman)
 router.get('/categories', homeController.getCategories)
+
+//contacts
+router.get('/contacts', contactController.getAll)
+router.get('/contacts/:id', contactController.getOne)
 
 module.exports = router
