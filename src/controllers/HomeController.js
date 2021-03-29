@@ -39,7 +39,7 @@ module.exports = {
                         const hour = now.getHours()
                         const minutes = now.getMinutes()
                         console.log(hour + ' ' + minutes)
-                        if(((hour >= 10) || (hour == 9 && minutes >= 30)) && hour <= 23){
+                        if(((hour >= 10) || (hour == 9 && minutes >= 30)) && hour <= 17){
                             response = 'Ótimo, vou chamar um de nossos atendentes para falar com você!\nAguarde um momento...'
                             cache.profile.shouldRespond = false
                             cache.new(user)
