@@ -16,7 +16,7 @@ module.exports = {
             body: message
         })
 
-        if(!cache.isCached(user)){
+        if(!cache.isCached(user) || (cache.isCached(user) && cache.get(user).shouldRespond)){
             cache.new(user)
             const { data } = await local.get('/ask')
             response = 'Olá, eu sou Juca, o Assistente Virtual das Lojas Juarez\n\nSerá um prazer te atender. Para agilizar seu atendimento digite:\n\n'

@@ -3,11 +3,6 @@ const myCache = new NodeCache({stdTTL: process.env.TTL})
 
 module.exports = {
 
-    profile: {
-        wantsOrder: false,
-        shouldRespond: true
-    },
-
     isCached(user){
         return myCache.has(user)
     },
@@ -30,7 +25,10 @@ module.exports = {
     },
 
     new(user){
-        myCache.set(user, this.profile)
+        myCache.set(user, {
+            wantsOrder: false,
+            shouldRespond: true
+        })
     },
 
     delete(user){
