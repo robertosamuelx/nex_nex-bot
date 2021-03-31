@@ -16,7 +16,7 @@ module.exports = {
             body: message
         })
 
-        if(!cache.isCached(user) || (cache.isCached(user) && cache.get(user).shouldRespond)){
+        if(!cache.isCached(user)){
             cache.new(user)
             const { data } = await local.get('/ask')
             response = 'Olá, eu sou Juca, o Assistente Virtual das Lojas Juarez\n\nSerá um prazer te atender. Para agilizar seu atendimento digite:\n\n'
@@ -145,7 +145,8 @@ module.exports = {
             to: body.to,
             message: body.body
         })
-        //cache.delete(body.to)
+        const user = cache.get(body.to).salesman = body.salesman
+        cache.new(user)
         return res.send()
     },
 

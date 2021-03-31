@@ -27,7 +27,8 @@ module.exports = {
     new(user){
         myCache.set(user, {
             wantsOrder: false,
-            shouldRespond: true
+            shouldRespond: true,
+            salesman: ''
         })
     },
 
