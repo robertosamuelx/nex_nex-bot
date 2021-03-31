@@ -132,6 +132,7 @@ module.exports = {
             }).filter(i => i !== null ? i : null)
             return {
                 id: index,
+                salesman: cache.get(groupedContact).salesman,
                 user: groupedContact,
                 messages
             }
