@@ -147,9 +147,12 @@ module.exports = {
             to: body.to,
             message: body.body
         })
-        const cachedUser = cache.get(body.to)
-        cachedUser.salesman = body.salesman ? body.salesman : ''
-        cache.new(body.to, cachedUser)
+
+        if(cache.isCached(body.to)){
+            const cachedUser = cache.get(body.to)
+            cachedUser.salesman = body.salesman
+            cache.new(body.to, cachedUser)
+        }
         return res.send()
     },
 
