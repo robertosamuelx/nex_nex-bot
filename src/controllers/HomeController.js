@@ -17,7 +17,7 @@ module.exports = {
         })
 
         if(!cache.isCached(user)){
-            cache.new(user)
+            cache.new(user, cache.profile)
             const { data } = await local.get('/ask')
             response = 'Olá, eu sou Juca, o Assistente Virtual das Lojas Juarez\n\nSerá um prazer te atender. Para agilizar seu atendimento digite:\n\n'
             data.forEach( el => {
@@ -41,19 +41,22 @@ module.exports = {
                         console.log(hour + ' ' + minutes)
                         if(((hour >= 10) || (hour == 9 && minutes >= 30)) && hour <= 17){
                             response = 'Ótimo, vou chamar um de nossos atendentes para falar com você!\nAguarde um momento...'
-                            cache.profile.shouldRespond = false
-                            cache.new(user)
+                            cachedUser.shouldRespond = false
+                            cache.new(user, cachedUser)
+                            console.log(user + cachedUser)
                         }
                         else {
                             response = 'Nosso horário de atendimento online é das 09h30 às 17h00 \nAssim que possível um dos nossos vendedores irá te atender\n\nObrigado pela preferência\n\nPara voltar ao menu principal digite MENU'
-                            cache.profile.wantsOrder = false
-                            cache.new(user)
+                            cachedUser.wantsOrder = false
+                            cache.new(user, cachedUser)
+                            console.log(user + cachedUser)
                         }
                     }
                     else {
                         response = 'Sem problemas, para voltar ao menu principal digite MENU'
-                        cache.profile.wantsOrder = false
-                        cache.new(user)
+                        cachedUser.wantsOrder = false
+                        cache.new(user, cachedUser)
+                        console.log(user + cachedUser)
                     }
                 }
 
@@ -79,8 +82,8 @@ module.exports = {
                             console.log(data.isOrder)
 
                             if(data.isOrder){
-                                cache.profile.wantsOrder = true
-                                cache.new(user)
+                                cachedUser.wantsOrder = true
+                                cache.new(user, cachedUser)
                                 response += "\n\nDeseja fazer um pedido?"
                             }
 
@@ -145,8 +148,9 @@ module.exports = {
             to: body.to,
             message: body.body
         })
-        const user = cache.get(body.to).salesman = body.salesman
-        cache.new(user)
+        const cachedUser = cache.get(body.to)
+        cachedUser.salesman = body.salesman ? body.salesman : ''
+        cache.new(body.to, )
         return res.send()
     },
 
