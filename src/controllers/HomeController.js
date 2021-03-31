@@ -153,6 +153,12 @@ module.exports = {
             cachedUser.salesman = body.salesman
             cache.new(body.to, cachedUser)
         }
+        else {
+            let profile = cache.profile()
+            profile.salesman = body.salesman
+            profile.shouldRespond = false
+            cache.new(user, profile)
+        }
         return res.send()
     },
 
