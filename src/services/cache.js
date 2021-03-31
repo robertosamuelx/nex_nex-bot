@@ -3,10 +3,12 @@ const myCache = new NodeCache({stdTTL: process.env.TTL})
 
 module.exports = {
 
-    profile = {
-        wantsOrder: false,
-        shouldRespond: true,
-        salesman: ''
+    profile() {
+        return {
+            wantsOrder: false,
+            shouldRespond: true,
+            salesman: ''
+        }
     },
 
     isCached(user){

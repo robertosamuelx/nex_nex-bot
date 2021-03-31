@@ -17,7 +17,7 @@ module.exports = {
         })
 
         if(!cache.isCached(user)){
-            cache.new(user, cache.profile)
+            cache.new(user, cache.profile())
             const { data } = await local.get('/ask')
             response = 'Olá, eu sou Juca, o Assistente Virtual das Lojas Juarez\n\nSerá um prazer te atender. Para agilizar seu atendimento digite:\n\n'
             data.forEach( el => {
