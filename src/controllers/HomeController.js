@@ -2,6 +2,7 @@ const cache = require('../services/cache')
 const { local, bot } = require('../services/api')
 const Message = require('../models/Message')
 const salesmanController = require('./SalesmanController')
+const { DateTime } = require('luxon')
 
 module.exports = {
     async messageReceived(req, res) {
@@ -35,28 +36,25 @@ module.exports = {
 
                     if(message == 'sim'){
 
-                        const now = new Date()
-                        const hour = now.getHours()
-                        const minutes = now.getMinutes()
+                        const now = DateTime.now().setZone('America/Sao_Paulo')
+                        const hour = now.hour
+                        const minutes = now.minute
                         console.log(hour + ' ' + minutes)
-                        if(((hour >= 10) || (hour == 9 && minutes >= 30)) && hour <= 17){
-                            response = 'Ótimo, vou chamar um de nossos atendentes para falar com você!\nAguarde um momento...'
+                        if(((hour >= 10) || (hour == 9 && minutes >= 30)) && hour < 17){
+                            response = 'Certo, vou encaminhar para um especialista te atender.\nVocê está na fila de atendimento, em breve será atendido'
                             cachedUser.shouldRespond = false
                             cache.new(user, cachedUser)
-                            console.log(user + cachedUser)
                         }
                         else {
                             response = 'Nosso horário de atendimento online é das 09h30 às 17h00 \nAssim que possível um dos nossos vendedores irá te atender\n\nObrigado pela preferência\n\nPara voltar ao menu principal digite MENU'
                             cachedUser.wantsOrder = false
                             cache.new(user, cachedUser)
-                            console.log(user + cachedUser)
                         }
                     }
                     else {
-                        response = 'Sem problemas, para voltar ao menu principal digite MENU'
+                        response = 'Certo, se precisar de algo mais estarei à disposição.\nPara ser atendido novamente digite: Menu\n\nConfira nossas promoções no nosso instagrm @foto_juarez'
                         cachedUser.wantsOrder = false
                         cache.new(user, cachedUser)
-                        console.log(user + cachedUser)
                     }
                 }
 
@@ -84,7 +82,7 @@ module.exports = {
                             if(data.isOrder){
                                 cachedUser.wantsOrder = true
                                 cache.new(user, cachedUser)
-                                response += "\n\nDeseja fazer um pedido?"
+                                response += "\n\nDeseja fazer um pedido?\nDigite: *sim* ou *não*"
                             }
 
                             else
