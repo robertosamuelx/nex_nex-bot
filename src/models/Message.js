@@ -7,7 +7,12 @@ const MessageSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now()
-    }
+    },
+    isFile: {
+        type: Boolean,
+        default: false
+    },
+    fileURL: String
 })
 
 module.exports = mongoose.model("Message", MessageSchema)

@@ -7,9 +7,14 @@ const homeController = require('./controllers/HomeController')
 const cachedController = require('./controllers/CachedController')
 const salesmanController = require('./controllers/SalesmanController')
 const contactController = require('./controllers/ContactController')
+const multer = require('multer')
+const multerConfig = require('./config/multerConfig')
 
 //user routes
-router.get('/user', userController.list)
+router.get('/users', userController.list)
+router.post('/user', userController.create)
+router.delete('/user/:username', userController.deleteOne)
+router.post('/user/login', userController.getOne)
 
 //ask routes
 router.get('/ask', askController.list)
@@ -27,7 +32,7 @@ router.get('/message/:id', messageController.getOne)
 router.get('/deleteall', messageController.deleteAll)
 
 //home routes
-router.post('/', homeController.messageReceived)
+router.post('/', multer(multerConfig).single('file') ,homeController.messageReceived)
 router.post('/chats', homeController.getChats)
 router.post('/send', homeController.messageSended)
 
