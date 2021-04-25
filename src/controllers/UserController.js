@@ -26,15 +26,12 @@ module.exports = {
     async getOne(req, res) {
         const { body } = req
         //falta incluir 'last login'
-        /*const now = DateTime.now().setZone('America/Sao_Paulo').toJSDate()
+        const now = DateTime.now().setZone('America/Sao_Paulo').toJSDate()
         const user = await prisma.user.findFirst({
             where: {username: body.username, AND: {password: body.password}}
-        })*/
-        if(body.username.toLowerCase() === 'admin' && body.password === 'admin' ){
-            return res.status(200).json({
-                username: 'admin',
-                name: 'Administrador'
-            })
+        })
+        if(user){
+            return res.status(200).json(user)
         }
         else
             return res.status(403).json({'status': 'FAIL', 'message': 'Acesso negado'})
