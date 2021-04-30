@@ -97,6 +97,7 @@ module.exports = {
                     }
                 }
             }
+        }
 
 
             if (response !== '') {
@@ -108,7 +109,6 @@ module.exports = {
                 })
             }
 
-        }
 
         return res.json({ response })
     },
