@@ -33,7 +33,7 @@ const options = {
             cb(null, true)
 
         else
-            cb(new Error('Invalid file type'))
+            cb(new Error('Invalid file type '+file.mimetype))
     }
 }
 

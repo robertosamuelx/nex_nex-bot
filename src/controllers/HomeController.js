@@ -97,8 +97,6 @@ module.exports = {
                     }
                 }
             }
-        }
-
 
             if (response !== '') {
                 await local.post('/message', {
@@ -109,6 +107,7 @@ module.exports = {
                 })
             }
 
+        }
 
         return res.json({ response })
     },
