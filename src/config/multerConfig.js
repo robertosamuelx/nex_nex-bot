@@ -9,9 +9,7 @@ const s3 = multerS3({
     contentType: multerS3.AUTO_CONTENT_TYPE,
     acl: 'public-read',
     key: (req, file, cb) => {
-        const now = DateTime.now().setZone('America/Sao_Paulo')
-        const originalName = file.originalname
-        const fileName = now.toMillis() + '_' + originalName
+        const fileName = file.originalname
         cb(null,fileName)
     }
 })
