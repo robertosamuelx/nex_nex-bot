@@ -1,4 +1,8 @@
 const Message = require('../models/Message')
+const LIMIT = 50
+const aws = require('aws-sdk')
+const s3 = new aws.S3()
+const s3Zip = require('s3-zip')
 
 module.exports = {
 
@@ -35,5 +39,15 @@ module.exports = {
     async deleteAll(req, res){
         await Message.deleteMany({})
         return res.status(200).send()
+    },
+
+    async getFilesByUser(req, res) {
+        console.log(req.body)
+        const { filter, user } = req.body
+        const messages = await Message.find({from: user, isFile: true}).limit(filter.quantity ? filter.quantity : LIMIT)
+        const keys = messages.map(message => message.fileKey)
+        s3Zip
+            .archive({s3: s3, bucket: process.env.AWS_BUCKET_NAME},'', keys)
+            .pipe(res) 
     }
 }

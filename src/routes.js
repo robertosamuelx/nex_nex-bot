@@ -30,6 +30,7 @@ router.post('/message', messageController.create)
 router.delete('/message/:id', messageController.delete)
 router.get('/message/:id', messageController.getOne)
 router.get('/deleteall', messageController.deleteAll)
+router.post('/message/filtered', messageController.getFilesByUser)
 
 //home routes
 router.post('/', multer(multerConfig).single('file') ,homeController.messageReceived)

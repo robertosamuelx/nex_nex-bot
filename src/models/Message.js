@@ -12,7 +12,8 @@ const MessageSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    fileURL: String
+    fileURL: String,
+    fileKey: String
 })
 
 module.exports = mongoose.model("Message", MessageSchema)

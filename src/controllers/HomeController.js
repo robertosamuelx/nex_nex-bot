@@ -17,7 +17,8 @@ module.exports = {
             createdAt: req.body.date,
             body: message,
             isFile: req.file ? true : false,
-            fileURL: req.file ? req.file['location'] : null
+            fileURL: req.file ? req.file['location'] : null,
+            fileKey : req.file ? req.file['key'] : null
         })
 
         if (!req.file) {
