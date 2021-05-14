@@ -39,21 +39,11 @@ module.exports = {
 
     async deleteOne(req, res) {
         const { params } = req
-        const user = await prisma.user.findFirst({
-            where: {
-                username: params.username
-            }
-        })
-        if(user){
-            await prisma.user.delete({
+        await prisma.user.delete({
                 where: {
-                    id: user.id
+                    id: Number(params.id)
                 }
             })
-            return res.send()
-        }
-        else {
-            return res.status(404).json({'status': 'FAIL', 'message': 'Usuário não encontrado'})
-        }
+        return res.send()
     }
 }

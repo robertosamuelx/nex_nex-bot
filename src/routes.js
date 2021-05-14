@@ -13,7 +13,7 @@ const multerConfig = require('./config/multerConfig')
 //user routes
 router.get('/users', userController.list)
 router.post('/user', userController.create)
-router.delete('/user/:username', userController.deleteOne)
+router.delete('/user/:id', userController.deleteOne)
 router.post('/user/login', userController.getOne)
 
 //ask routes
