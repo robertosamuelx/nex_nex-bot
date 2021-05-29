@@ -22,8 +22,13 @@ module.exports = {
     async delete(req, res) {
         const { id } = req.params
         const ask = await Ask.findOne({id}).exec()
-        await ask.deleteOne()
-        return res.status(200).send()
+        if(ask !== null){
+            await ask.deleteOne()
+            return res.status(200).send()
+        }
+        else {
+            return res.status(404).json({"response": "ERROR", "message": "Pergunta não encontrada"})
+        }
     },
 
     async getOne(req, res){
