@@ -42,7 +42,6 @@ module.exports = {
     },
 
     async getFilesByUser(req, res) {
-        console.log(req.body)
         const { filter, user } = req.body
         const messages = await Message.find({from: user, isFile: true}).limit(filter.quantity ? filter.quantity : LIMIT)
         const keys = messages.map(message => message.fileKey)

@@ -9,6 +9,7 @@ const salesmanController = require('./controllers/SalesmanController')
 const contactController = require('./controllers/ContactController')
 const multer = require('multer')
 const multerConfig = require('./config/multerConfig')
+const campaignController = require('./controllers/CampaignController')
 
 //user routes
 router.get('/users', userController.list)
@@ -53,5 +54,9 @@ router.get('/contacts/:id', contactController.getOne)
 
 //control
 router.get('/start', homeController.startBot)
+
+//campaigns
+router.get('/campaigns', campaignController.list)
+router.post('/campaign', campaignController.create)
 
 module.exports = router
