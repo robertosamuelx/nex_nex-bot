@@ -58,5 +58,6 @@ router.get('/start', homeController.startBot)
 //campaigns
 router.get('/campaigns', campaignController.list)
 router.post('/campaign', campaignController.create)
+router.delete('/campaign/:id', campaignController.delete)
 
 module.exports = router
