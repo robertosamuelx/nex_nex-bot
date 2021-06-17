@@ -6,7 +6,12 @@ const CampaignSchema = new mongoose.Schema({
         type: Date,
         default: Date.now()
     },
-    contacts: []
+    contacts: [],
+    message: String,
+    sendAt: {
+        type: Date,
+        default: Date.now()
+    }
 })
 
 module.exports = mongoose.model("Campaign", CampaignSchema)
