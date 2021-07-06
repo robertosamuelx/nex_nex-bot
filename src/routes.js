@@ -59,5 +59,7 @@ router.get('/start', homeController.startBot)
 router.get('/campaigns', campaignController.list)
 router.post('/campaign', campaignController.create)
 router.delete('/campaign/:id', campaignController.delete)
+router.get('/campaign/:id', campaignController.getOne)
+router.post('/campaigns/filterbyCreatedAt', campaignController.filterByCreatedAt)
 
 module.exports = router

@@ -1,4 +1,5 @@
 const Campaign = require('../models/Campaign')
+const { DateTime } = require('luxon')
 
 module.exports = {
     async list(req, res){
@@ -29,6 +30,14 @@ module.exports = {
         const { id } = req.params
         const campaign = await Campaign.findById(id)
         return res.status(200).json(campaign)
+    },
+
+    async filterByCreatedAt(req, res){
+        const { createdAt } = req.body
+        const gte = new Date(createdAt)
+        const lte = DateTime.fromJSDate(gte).plus({days: 1})
+        const campaigns = await Campaign.find({createdAt: {$gte: gte, $lte: lte}})
+        return res.status(200).json(campaigns)
     },
 
     async deleteAll(req, res){
