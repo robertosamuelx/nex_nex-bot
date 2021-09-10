@@ -10,6 +10,7 @@ const contactController = require('./controllers/ContactController')
 const multer = require('multer')
 const multerConfig = require('./config/multerConfig')
 const campaignController = require('./controllers/CampaignController')
+const qrcodeController = require('./controllers/QrCodeController')
 
 //user routes
 router.get('/users', userController.list)
@@ -61,5 +62,7 @@ router.post('/campaign', campaignController.create)
 router.delete('/campaign/:id', campaignController.delete)
 router.get('/campaign/:id', campaignController.getOne)
 router.post('/campaigns/filterbyCreatedAt', campaignController.filterByCreatedAt)
+
+router.get('/qrcode', qrcodeController.get)
 
 module.exports = router
