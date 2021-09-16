@@ -42,6 +42,7 @@ router.post('/send', homeController.messageSended)
 //cached routes
 router.get('/cached/:id', cachedController.get)
 router.get('/cached', cachedController.getAll)
+router.delete('/cached/:id', cachedController.delete)
 
 //salesman routes
 router.get('/sales', salesmanController.getAllSales)
