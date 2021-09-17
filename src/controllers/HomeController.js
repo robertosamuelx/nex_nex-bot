@@ -119,8 +119,10 @@ module.exports = {
         let groupedContacts = []
         contacts.map(contact => {
             const from = contact.from
-            if (!groupedContacts.includes(from) && from !== process.env.MY_NUMBER)
+            if(from !== '#'){
+                if (!groupedContacts.includes(from) && from !== process.env.MY_NUMBER)
                 groupedContacts.push(from)
+            }
         })
 
         groupedContacts = groupedContacts.map((groupedContact, index) => {
