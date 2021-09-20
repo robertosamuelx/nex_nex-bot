@@ -3,6 +3,7 @@ const { local, bot } = require('../services/api')
 const Message = require('../models/Message')
 const salesmanController = require('./SalesmanController')
 const { DateTime } = require('luxon')
+const { isClosed } = require('../services/datetime')
 
 module.exports = {
     async messageReceived(req, res) {
@@ -42,11 +43,7 @@ module.exports = {
 
                         if (message == 'sim') {
 
-                            const now = DateTime.now().setZone('America/Sao_Paulo')
-                            const hour = now.hour
-                            const minutes = now.minute
-                            console.log(hour + ' ' + minutes)
-                            if (((hour >= 10) || (hour == 9 && minutes >= 30)) && hour < 17) {
+                            if (!isClosed()) {
                                 response = 'Certo, vou encaminhar para um especialista te atender.\nVocê está na fila de atendimento, em breve será atendido'
                                 cachedUser.shouldRespond = false
                                 cache.new(user, cachedUser)
@@ -165,6 +162,7 @@ module.exports = {
         if (cache.isCached(body.to)) {
             const cachedUser = cache.get(body.to)
             cachedUser.salesman = body.salesman
+            cachedUser.shouldRespond = false
             cache.new(body.to, cachedUser)
         }
         else {
